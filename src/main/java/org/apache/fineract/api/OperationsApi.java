@@ -29,6 +29,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,8 +43,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletResponse;
-import java.text.ParseException;import java.text.SimpleDateFormat;import java.util.ArrayList;import java.util.Date;import java.util.HashMap;import java.util.List;
-import java.util.Map;import java.util.concurrent.atomic.AtomicReference;import java.util.stream.Collectors;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 @RestController
 @SecurityRequirement(name = "auth")
@@ -236,5 +243,15 @@ public class OperationsApi {
     @DeleteMapping("/delays")
     public void deleteTimestampsRecords() {
         timestampRepository.deleteAll();
+    }
+
+    @PostMapping("/count/{status}")
+    public ResponseEntity<Long> countTransactionsWithTheGivenStatus(@PathVariable String status, @RequestBody List<String> transactionIds) {
+        try {
+            Long count = transferRepository.countCompletedTransactions(transactionIds, TransferStatus.valueOf(status.toUpperCase()));
+            return new ResponseEntity<>(count, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

@@ -29,4 +29,7 @@ public interface TransferRepository extends JpaRepository<Transfer, Long>, JpaSp
     @Query("SELECT t FROM Transfer t WHERE t.batchId IN (SELECT b.subBatchId FROM Batch b WHERE b.batchId = :batchId AND b.subBatchId IS NOT NULL)")
     Page<Transfer>findAllByBatchIdMatchSubBatchId(String batchId, Pageable pageable);
 
+    @Query("SELECT COUNT(t) FROM Transfer t WHERE t.transactionId IN :transactionIds AND t.status = :status")
+    long countCompletedTransactions(@Param("transactionIds") List<String> transactionIds, @Param("status") TransferStatus status);
+
 }
