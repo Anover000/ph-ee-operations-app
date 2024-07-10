@@ -10,10 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "timestamps")
+@Table(name = "event_timestamps")
 @Getter
 @Setter
-public class Timestamps {
+public class EventTimestamps {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

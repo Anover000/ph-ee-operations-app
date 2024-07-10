@@ -1,4 +1,4 @@
-CREATE TABLE `timestamps` (
+CREATE TABLE `event_timestamps` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `workflow_instance_key` BIGINT,
   `transaction_id` VARCHAR(255),

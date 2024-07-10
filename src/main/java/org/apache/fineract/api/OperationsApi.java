@@ -7,10 +7,10 @@ import org.apache.fineract.operations.BatchRepository;
 import org.apache.fineract.operations.BusinessKey;
 import org.apache.fineract.operations.BusinessKeyRepository;
 import org.apache.fineract.operations.DelayResponseDTO;
+import org.apache.fineract.operations.EventTimestamps;
+import org.apache.fineract.operations.EventTimestampsRepository;
 import org.apache.fineract.operations.Task;
 import org.apache.fineract.operations.TaskRepository;
-import org.apache.fineract.operations.TimestampRepository;
-import org.apache.fineract.operations.Timestamps;
 import org.apache.fineract.operations.TransactionRequest;
 import org.apache.fineract.operations.TransactionRequestDetail;
 import org.apache.fineract.operations.TransactionRequestRepository;
@@ -77,7 +77,7 @@ public class OperationsApi {
     private BatchRepository batchRepository;
 
     @Autowired
-    private TimestampRepository timestampRepository;
+    private EventTimestampsRepository eventTimestampsRepository;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -212,7 +212,7 @@ public class OperationsApi {
     @GetMapping("/delays")
     public DelayResponseDTO getDelays() {
 
-        List<Timestamps> timestamps =  timestampRepository.findAll();
+        List<EventTimestamps> timestamps =  eventTimestampsRepository.findAll();
         AtomicReference<Long> totalExportImportDiff = new AtomicReference<>(0L);
         AtomicReference<Long> totalZeebeExportDiff = new AtomicReference<>(0L);
         int eventsCount = timestamps.size();
@@ -242,7 +242,7 @@ public class OperationsApi {
 
     @DeleteMapping("/delays")
     public void deleteTimestampsRecords() {
-        timestampRepository.deleteAll();
+        eventTimestampsRepository.deleteAll();
     }
 
     @PostMapping("/count/{status}")
