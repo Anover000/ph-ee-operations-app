@@ -217,7 +217,7 @@ public class OperationsApi {
         AtomicReference<Long> totalZeebeExportDiff = new AtomicReference<>(0L);
         int eventsCount = timestamps.size();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
-        timestamps.forEach(timestamp -> {
+        timestamps.parallelStream().forEach(timestamp -> {
             try {
                 Date d1 = sdf.parse(timestamp.getExportedTime());
                 Date d2 = sdf.parse(timestamp.getImportedTime());
