@@ -242,7 +242,7 @@ public class OperationsApi {
 
     @DeleteMapping("/delays")
     public void deleteTimestampsRecords() {
-        eventTimestampsRepository.deleteAll();
+        eventTimestampsRepository.deleteAllTimestamps();
     }
 
     @PostMapping("/count/{status}")
