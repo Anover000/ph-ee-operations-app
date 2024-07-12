@@ -49,7 +49,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.Objects;import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @RestController
@@ -217,7 +217,7 @@ public class OperationsApi {
         AtomicReference<Long> totalZeebeExportDiff = new AtomicReference<>(0L);
         int eventsCount = timestamps.size();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
-        timestamps.parallelStream().forEach(timestamp -> {
+        timestamps.forEach(timestamp -> {
             try {
                 Date d1 = sdf.parse(timestamp.getExportedTime());
                 Date d2 = sdf.parse(timestamp.getImportedTime());
